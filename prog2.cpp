@@ -1,9 +1,11 @@
+#include <iostream>
+using namespace std;
+
 #include <unistd.h>
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <string.h>
-#include <stdio.h>
 
 int main()
 {
@@ -15,20 +17,23 @@ int main()
 
 	const int MAX = 256;
 	char rd_data[MAX];
-	char wr_data[MAX];
+	string wr_string;
+
 	// prog2: read first
 
 	while (true)
 	{
 		fd = open(myfifo, O_RDONLY);
 		read(fd, rd_data, sizeof(rd_data));
-		printf("prog2 received: %s\n", rd_data);
+		string rd_string(rd_data);
+		cout << "prog2 received: " << rd_string << endl;
 		close(fd);
 
-		printf("Enter a message: ");
-		fgets(wr_data, MAX, stdin);
+		cout << "Enter a message: ";
+		getline(cin, wr_string);
 
 		fd = open(myfifo, O_WRONLY);
+		const char* wr_data = wr_string.c_str();
 		write(fd, wr_data, strlen(wr_data) + 1);
 		close(fd);
 	}
