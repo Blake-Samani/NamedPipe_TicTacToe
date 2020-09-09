@@ -1,11 +1,9 @@
-#include <iostream>
-using namespace std;
-
 #include <unistd.h>
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <string.h>
+#include <stdio.h>
 
 int main() {
 	int fd;
@@ -14,22 +12,23 @@ int main() {
 	// create the named pipe (FIFO)
 	mkfifo(myfifo, 0666);
 
-	char rd_data[80];
-	string wr_data;
+	const int MAX = 256;
+	char rd_data[MAX];
+	char wr_data[MAX];
 
 	// prog1: write first
 
 	while (true) {
-		cout << "PROG1: Enter a word: "; 
-		cin >> wr_data;
+		printf("Enter a message: ");
+		fgets(wr_data, MAX, stdin);
 
 		fd = open(myfifo, O_WRONLY);
-		write(fd, wr_data.c_str(), strlen(wr_data.c_str()));
+		write(fd, wr_data, strlen(wr_data) + 1);
 		close(fd);
 
 		fd = open(myfifo, O_RDONLY);
 		read(fd, rd_data, sizeof(rd_data));
-		cout << "prog1 received: " << rd_data << endl;
+		printf("prog1 received: %s\n", rd_data);
 		close(fd);
 	}
 }
