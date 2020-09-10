@@ -8,31 +8,30 @@ using namespace std;
 #include <string.h>
 
 int main() {
-	int fd;
 	const char* myfifo = "tmp/myfifo";
+	const char* myfifo2 = "tmp/myfifo2";
 
 	// create the named pipe (FIFO)
 	mkfifo(myfifo, 0666);
+	mkfifo(myfifo2, 0666);
 
 	const int MAX = 256;
 	char rd_data[MAX];
 	string wr_string;
 
 	// prog1: write first
+	int fd = open(myfifo, O_WRONLY);
+	int	fd2 = open(myfifo2, O_RDONLY);
 
 	while (true) {
 		cout << "Enter a message: ";
 		getline(cin, wr_string);
 
-		fd = open(myfifo, O_WRONLY);
 		const char* wr_data = wr_string.c_str();
 		write(fd, wr_data, strlen(wr_data) + 1);
-		close(fd);
 
-		fd = open(myfifo, O_RDONLY);
-		read(fd, rd_data, sizeof(rd_data));
+		read(fd2, rd_data, sizeof(rd_data));
 		string rd_string(rd_data);
 		cout << "prog1 received: " << rd_string << endl;
-		close(fd);
 	}
 }
