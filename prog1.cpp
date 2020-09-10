@@ -22,8 +22,11 @@ int main(int argc, char **argv) {
 	printf("%s: READY!\n", argv[0]);
 
 	// prog1: write first
+	// open() will be blocked until the other side is open
 	int fd = open(myfifo, O_WRONLY);
 	int	fd2 = open(myfifo2, O_RDONLY);
+
+	printf("name pipes opened and ready\n");
 
 	while (true) {
 		printf("Enter a message: ");

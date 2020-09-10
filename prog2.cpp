@@ -24,6 +24,8 @@ int main(int argc, char** argv)
 	int fd = open(myfifo, O_RDONLY);
 	int	fd2 = open(myfifo2, O_WRONLY);
 
+	printf("name pipes opened and ready\n");
+
 	while (true)
 	{
 		read(fd, rd_data, sizeof(rd_data));
