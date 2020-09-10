@@ -27,7 +27,7 @@ int main(int argc, char** argv)
 	while (true)
 	{
 		read(fd, rd_data, sizeof(rd_data));
-		printf("prog1 received: %s", rd_data);
+		printf("prog2 received: %s", rd_data);
 
 		printf("Enter a message: ");
 		fgets(wr_data, MAX, stdin);
