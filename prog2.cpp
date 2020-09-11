@@ -18,11 +18,20 @@ int main()
 	const int MAX = 1024;
 	char rd_data[MAX], wr_data[MAX];
 
-	printf("waiting for named pipes open ... ");
+	printf("waiting for named pipes open ... \n");
 
 	// prog2: read first
+	// order of open is important to unblock process
 	int fd = open(myfifo, O_RDONLY);
+	if (fd < 0) {
+		printf("%s open error with code %d\n", myfifo, fd);
+		exit(1);
+	}
 	int	fd2 = open(myfifo2, O_WRONLY);
+	if (fd2 < 0) {
+		printf("%s open error with code %d\n", myfifo2, fd2);
+		exit(1);
+	}
 
 	printf("named pipes opened and ready\n");
 
