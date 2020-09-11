@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int main(int argc, char** argv)
+int main()
 {
 	const char *myfifo = ".myfifo";
 	const char* myfifo2 = ".myfifo2";
@@ -18,18 +18,18 @@ int main(int argc, char** argv)
 	const int MAX = 1024;
 	char rd_data[MAX], wr_data[MAX];
 
-	printf("%s: READY!\n", argv[0]);
+	printf("waiting for named pipes open ... ");
 
 	// prog2: read first
 	int fd = open(myfifo, O_RDONLY);
 	int	fd2 = open(myfifo2, O_WRONLY);
 
-	printf("name pipes opened and ready\n");
+	printf("named pipes opened and ready\n");
 
 	while (true)
 	{
 		read(fd, rd_data, sizeof(rd_data));
-		printf("prog2 received: %s", rd_data);
+		printf("received: %s", rd_data);
 
 		printf("Enter a message: ");
 		fgets(wr_data, MAX, stdin);
