@@ -38,10 +38,13 @@ int main()
 	while (true)
 	{
 		read(fd, rd_data, sizeof(rd_data));
-		printf("received: %s", rd_data);
+		printf("received: %s\n", rd_data);
+		if (strcmp(rd_data, "quit") == 0)
+			break;
 
 		printf("Enter a message: ");
 		fgets(wr_data, MAX, stdin);
+		wr_data[strlen(wr_data) - 1] = '\0';
 		write(fd2, wr_data, strlen(wr_data) + 1);
 	}
 }

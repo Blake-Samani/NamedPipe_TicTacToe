@@ -39,10 +39,16 @@ int main() {
 	while (true) {
 		printf("Enter a message: ");
 		fgets(wr_data, MAX, stdin);
-
+		wr_data[strlen(wr_data) - 1] = '\0';
 		write(fd, wr_data, strlen(wr_data) + 1);
+		if (strcmp(wr_data, "quit") == 0)
+			break;
 
 		read(fd2, rd_data, sizeof(rd_data));
-		printf("received: %s", rd_data);
+		printf("received: %s\n", rd_data);
 	}
+	close(fd);
+	close(fd2);
+	unlink(myfifo);
+	unlink(myfifo2);
 }
