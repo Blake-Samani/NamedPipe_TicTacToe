@@ -39,7 +39,7 @@ int main()
 	{
 		read(fd, rd_data, sizeof(rd_data));
 		printf("received: %s\n", rd_data);
-		if (strcmp(rd_data, "quit") == 0)
+		if (strcmp(rd_data, "Q") == 0)
 			break;
 
 		printf("Enter a message: ");

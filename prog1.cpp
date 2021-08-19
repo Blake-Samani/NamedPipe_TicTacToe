@@ -37,11 +37,11 @@ int main() {
 	printf("named pipes opened and ready\n");
 
 	while (true) {
-		printf("Enter a message: ");
+		printf("Enter a message (Q to quit): ");
 		fgets(wr_data, MAX, stdin);
-		wr_data[strlen(wr_data) - 1] = '\0';
+		wr_data[strlen(wr_data) - 1] = '\0'; // '\n' is replaced by NULL ('\0')
 		write(fd, wr_data, strlen(wr_data) + 1);
-		if (strcmp(wr_data, "quit") == 0)
+		if (strcmp(wr_data, "Q") == 0)
 			break;
 
 		read(fd2, rd_data, sizeof(rd_data));
