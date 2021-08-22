@@ -1,10 +1,10 @@
-#include <unistd.h>
-#include <fcntl.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <unistd.h> // open() close()
+#include <fcntl.h> // O_* constants
+#include <sys/stat.h>  // mkfifo()
+#include <sys/types.h> // mkfifo()
+#include <string.h> // strlen() strcmp()
+#include <stdio.h> // printf() scanf()
+#include <stdlib.h> // exit()
 
 #include "my_const.h"
 
