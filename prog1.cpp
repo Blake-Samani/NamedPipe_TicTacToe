@@ -19,34 +19,29 @@ int main() {
 
 	printf("waiting for named pipes open ... \n");
 
-	// prog1: write first
-	// open() will be blocked until the other side is open
-	int fd = open(myfifo_1to2, O_WRONLY);
-	if (fd < 0) {
-		printf("%s open error with code %d\n", myfifo_1to2, fd);
-		exit(1);
-	}
-	int	fd2 = open(myfifo_2to1, O_RDONLY);
-	if (fd2 < 0) {
-		printf("%s open error with code %d\n", myfifo_2to1, fd2);
-		exit(1);
-	}
+	// P1&P2: order of open() is important to unblock processes
+	// open() for WR will be blocked until the other side is open for RD
+	int fd_wr = open(myfifo_1to2, O_WRONLY);
+	// open() for RD will be blocked until the other side is open for WR
+	int	fd_rd = open(myfifo_2to1, O_RDONLY);
 
 	printf("named pipes opened and ready\n");
 
+	// prog1: write first
 	while (true) {
 		printf("Enter a message (Q to quit): ");
 		fgets(wr_data, MAX, stdin);
 		wr_data[strlen(wr_data) - 1] = '\0'; // '\n' is replaced by NULL ('\0')
-		write(fd, wr_data, strlen(wr_data) + 1);
+		write(fd_wr, wr_data, strlen(wr_data) + 1);
 		if (strcmp(wr_data, "Q") == 0)
 			break;
 
-		read(fd2, rd_data, sizeof(rd_data));
+		read(fd_rd, rd_data, sizeof(rd_data));
 		printf("received: %s\n", rd_data);
 	}
-	close(fd);
-	close(fd2);
+	close(fd_wr);
+	close(fd_rd);
 	unlink(myfifo_1to2);
 	unlink(myfifo_2to1);
+	printf("Prog1 exits\n");
 }
